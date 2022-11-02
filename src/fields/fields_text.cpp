@@ -83,7 +83,7 @@ QWidget *UI_Field_Path::createContent()
 	line_edit = create_lineEdit(path);
 	layout->addWidget(line_edit);
 
-	QPushButton *btn_browse = new UI_Button(path, BTN_DEFAULT, "Обзор");
+	QPushButton *btn_browse = new UI_Button(path, BTN_DEFAULT, "...");
 	layout->addWidget(btn_browse);
 
 	connect(btn_browse, SIGNAL(clicked()), this, SLOT(fileDialog()));
