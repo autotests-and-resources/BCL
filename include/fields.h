@@ -5,6 +5,8 @@
 #include "styles.h"
 #include "button.h"
 #include "coord.h"
+#include "transform_coords.h"
+#include "CoordDelegate.h"
 
 #include <QWidget>
 #include <QLineEdit>
@@ -16,7 +18,8 @@
 #include <QPushButton>
 #include <QFileDialog>
 #include <QScrollArea>
-
+#include <QDebug>
+#include <QStringList>
 /*!
  * @brief Класс для создания поля ввода параметров (по умолчанию)
  */
@@ -249,6 +252,12 @@ public slots:
 	void clearField();
 	void addRow();
 	void deleteRow();
+	//! изменение значения флага в десятичные градусы
+	void switchToDecimal();
+	//! изменение значения флага градусы/минуты/секунды
+	void switchToDegrees();
+	//! изменение значения флага в радианы
+	void switchToRadians();
 
 private:
 	QWidget *createContent();
@@ -260,8 +269,16 @@ private:
 	void writeCoordToTable(QTableWidget *tw, Coord coord, int row);
 
 	bool isFullTable(QTableWidget *tw);
+	void updateTable();
+	void setDelegate(bool);
+	//! заполнение таблицы значениями в радианах/десятичных градусах
+	void fillTable(Coord, QTableWidget*, int);
 
 	QTableWidget *table;
+
+	//!хранилище координат (в радианах)
+	QVector<Coord> coord_storage;
+	CoordFormat format;
 };
 
 #endif // FIELDS_H
