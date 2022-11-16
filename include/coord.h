@@ -9,6 +9,11 @@ struct Coord
 };
 
 //!форматы для отображения координат
-enum CoordFormat {DEGREES, RADIANS, DECIMAL};
+enum CoordFormat
+{
+	DEGREES,
+	RADIANS,
+	DECIMAL
+};
 
 #endif // COORD_H

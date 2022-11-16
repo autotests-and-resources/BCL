@@ -22,48 +22,50 @@ void UI_Field_Coord::updateTable()
 
 		switch (format)
 		{
-		//если выбраны радианы
-		case CoordFormat::RADIANS:{
+		//радианы
+		case CoordFormat::RADIANS:
+			//заполнение таблицы
 			fillTable(current_coord, table, row);
-			break;}
-
-			//если выбраны десятичные градусы
-		case CoordFormat::DECIMAL:{
-			//перевод
+			break;
+			//десятичные градусы
+		case CoordFormat::DECIMAL:
+			//перевод в деятичные градусы
 			current_coord.Lat = TransformCoords::radiansToDecimalDegrees(current_coord.Lat);
 			current_coord.Long = TransformCoords::radiansToDecimalDegrees(current_coord.Long);
+			//заполнение таблицы
 			fillTable(current_coord, table, row);
-			break;}
-			//если выбраны градусы/минуты/секунды
-		case CoordFormat::DEGREES:{
-
+			break;
+			//градусы/минуты/секунды
+		case CoordFormat::DEGREES:
+			//перевод широты
 			TransformCoords::Degrees degrees_lat;
 			degrees_lat = TransformCoords::radiansToDegrees(current_coord.Lat);
-
+			//перевод долготы
 			TransformCoords::Degrees degrees_long;
 			degrees_long = TransformCoords::radiansToDegrees(current_coord.Long);
-
+			//заполнение таблицы
 			QTableWidgetItem *item_lat = table->item(row, 0);
-			if(item_lat)
+			if (item_lat)
 			{
-				item_lat->setText(QString::number(degrees_lat.degrees) + "\xB0" + QString::number(degrees_lat.minutes) + "\x27" + QString::number(degrees_lat.seconds) + "\x22");
+				item_lat->setText(QString::number(degrees_lat.degrees) + degrees_token
+								  + QString::number(degrees_lat.minutes) + minutes_token
+								  + QString::number(degrees_lat.seconds) + seconds_token);
 			}
 			QTableWidgetItem *item_long = table->item(row, 1);
-			if(item_long)
+			if (item_long)
 			{
-				item_long->setText(QString::number(degrees_long.degrees) + "\xB0" + QString::number(degrees_long.minutes) + "\x27" + QString::number(degrees_long.seconds) + "\x22");
+				item_long->setText(QString::number(degrees_long.degrees) + degrees_token
+								   + QString::number(degrees_long.minutes) + minutes_token
+								   + QString::number(degrees_long.seconds) + seconds_token);
 			}
-			break;
-		}
-		default:
 			break;
 		}
 	}
 }
 
-void UI_Field_Coord::setDelegate(bool degrees)
+void UI_Field_Coord::setDelegate(bool is_special_degrees)
 {
-	if (degrees)
+	if (is_special_degrees)
 	{
 		table->setItemDelegateForColumn(0, new CoordDelegate);
 		table->setItemDelegateForColumn(1, new CoordDelegate);
@@ -77,7 +79,7 @@ void UI_Field_Coord::setDelegate(bool degrees)
 	}
 }
 
-void UI_Field_Coord::fillTable(Coord current_coord, QTableWidget *table , int row)
+void UI_Field_Coord::fillTable(Coord current_coord, QTableWidget *table, int row)
 {
 	QTableWidgetItem *item_lat = table->item(row, 0);
 	if (item_lat)
@@ -94,7 +96,6 @@ void UI_Field_Coord::fillTable(Coord current_coord, QTableWidget *table , int ro
 
 void UI_Field_Coord::updateValue(int row, int col)
 {
-
 	if (!isUnlockedChangedSignal())
 		return;
 
@@ -113,7 +114,7 @@ void UI_Field_Coord::updateValue(int row, int col)
 		//если элементы широты и долготы существуют
 		item = table->item(row, col);
 		if (!item)
-			return ;
+			return;
 
 		double new_value = 0;
 
@@ -161,10 +162,8 @@ void UI_Field_Coord::updateValue(int row, int col)
 			coord_storage[row].Long = new_value;
 	}
 
-	qDebug() << coord_storage[row].Lat << "/"
-			 << coord_storage[row].Long << "/"
+	qDebug() << coord_storage[row].Lat << "/" << coord_storage[row].Long << "/"
 			 << coord_storage[row].H;
-
 
 	emit changedValue(_field.name, coord_storage, _field.output);
 }
@@ -184,7 +183,8 @@ void UI_Field_Coord::updateField(QVector<Coord> value)
 	unlockChangedSignal();
 }
 
-void UI_Field_Coord::clearField() {
+void UI_Field_Coord::clearField()
+{
 	table->clearContents();
 }
 
@@ -242,12 +242,7 @@ QWidget *UI_Field_Coord::createContent()
 	table->setHorizontalHeaderItem(1, new QTableWidgetItem(QString::fromUtf8("Долгота")));
 	table->setHorizontalHeaderItem(2, new QTableWidgetItem(QString::fromUtf8("Высота")));
 
-//	table->setItemDelegateForColumn(0, new CoordDelegate);
-//	table->setItemDelegateForColumn(1, new CoordDelegate);
-//	table->setItemDelegateForColumn(2, new DoubleValidatorDelegate);
-
-	connect(table, SIGNAL(cellChanged(int,int)),
-			this, SLOT(updateValue(int,int)));
+	connect(table, SIGNAL(cellChanged(int, int)), this, SLOT(updateValue(int, int)));
 
 	return content;
 }
@@ -299,10 +294,10 @@ QVector<Coord> UI_Field_Coord::readTable()
 Coord UI_Field_Coord::readCoordFromTable(QTableWidget *tw, int row)
 {
 	Coord coord;
-		coord.Lat = tw->item(row, 0)->text().toDouble();
-		coord.Long = tw->item(row, 1)->text().toDouble();
-		coord.H = tw->item(row, 2)->text().toDouble();
-		return coord;
+	coord.Lat = tw->item(row, 0)->text().toDouble();
+	coord.Long = tw->item(row, 1)->text().toDouble();
+	coord.H = tw->item(row, 2)->text().toDouble();
+	return coord;
 
 	return coord;
 }
@@ -310,12 +305,11 @@ Coord UI_Field_Coord::readCoordFromTable(QTableWidget *tw, int row)
 void UI_Field_Coord::writeCoordToTable(QTableWidget *tw, Coord coord, int row)
 {
 	QTableWidgetItem *item = new QTableWidgetItem(QString::number(coord.Lat));
-		tw->setItem(row, 0, item);
-		item = new QTableWidgetItem(QString::number(coord.Long));
-		tw->setItem(row, 1, item);
-		item = new QTableWidgetItem(QString::number(coord.H));
-		tw->setItem(row, 2, item);
-
+	tw->setItem(row, 0, item);
+	item = new QTableWidgetItem(QString::number(coord.Long));
+	tw->setItem(row, 1, item);
+	item = new QTableWidgetItem(QString::number(coord.H));
+	tw->setItem(row, 2, item);
 }
 
 bool UI_Field_Coord::isFullTable(QTableWidget *tw)

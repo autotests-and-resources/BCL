@@ -270,15 +270,18 @@ private:
 
 	bool isFullTable(QTableWidget *tw);
 	void updateTable();
-	void setDelegate(bool);
+	void setDelegate(bool is_special_degrees);
 	//! заполнение таблицы значениями в радианах/десятичных градусах
-	void fillTable(Coord, QTableWidget*, int);
+	void fillTable(Coord current_coord, QTableWidget *table, int row);
 
 	QTableWidget *table;
-
 	//!хранилище координат (в радианах)
 	QVector<Coord> coord_storage;
 	CoordFormat format;
+	QString degrees_token = "\xB0";
+	QString minutes_token = "\x27";
+	QString seconds_token = "\x22";
+
 };
 
 #endif // FIELDS_H

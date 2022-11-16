@@ -14,7 +14,7 @@
 class CoordDelegate : public QItemDelegate
 {
 public:
-	CoordDelegate(QObject *parent = 0);
+	CoordDelegate(QObject *parent = 0){}
 	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
 						  const QModelIndex &index) const;
 };
@@ -30,7 +30,7 @@ public:
 class DoubleValidatorDelegate : public QItemDelegate
 {
 public:
-	DoubleValidatorDelegate(QObject *parent = 0);
+	DoubleValidatorDelegate(QObject *parent = 0){}
 	QWidget *createEditor(QWidget *parent, const QStyleOptionViewItem &option,
 						  const QModelIndex &index) const;
 };
