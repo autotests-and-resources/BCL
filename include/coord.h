@@ -8,4 +8,12 @@ struct Coord
 	double H = 0.;
 };
 
+//!форматы для отображения координат
+enum CoordFormat
+{
+	DEGREES,
+	RADIANS,
+	DECIMAL
+};
+
 #endif // COORD_H

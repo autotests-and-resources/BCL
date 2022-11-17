@@ -24,7 +24,8 @@ HEADERS += \
 	$${INC_PATH}/coord.h \
 	$${INC_PATH}/transform_coords.h \
 	$${INC_PATH}/button.h \
-	$${INC_PATH}/styles.h
+	$${INC_PATH}/styles.h \
+	$${INC_PATH}/CoordDelegate.h
 
 SOURCES += \
 	$${SUB_FIELDS}/fields_default.cpp \
@@ -33,7 +34,8 @@ SOURCES += \
 	$${SUB_FIELDS}/fields_coords.cpp \
 	$${SUB_BUTTONS}/button.cpp \
 	$${SUB_STYLES}/styles_default.cpp \
-	$${SUB_STYLES}/styles_button.cpp
+	$${SUB_STYLES}/styles_button.cpp \
+	$${SUB_FIELDS}/CoordDelegate.cpp
 
 DESTDIR = $${LIBS_PATH}/
 
