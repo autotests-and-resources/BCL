@@ -131,9 +131,9 @@ void UI_Field_Coord::updateValue(int row, int col)
 			QString cell_text = item->text();
 			if (cell_text.isEmpty())
 				return;
-			cell_text.replace("\xB0", " ");
-			cell_text.replace("\x27", " ");
-			cell_text.replace("\x22", "");
+			cell_text.replace(degrees_token, " ");
+			cell_text.replace(minutes_token, " ");
+			cell_text.replace(seconds_token, "");
 
 			QStringList dms = cell_text.split(" ");
 
@@ -297,8 +297,6 @@ Coord UI_Field_Coord::readCoordFromTable(QTableWidget *tw, int row)
 	coord.Lat = tw->item(row, 0)->text().toDouble();
 	coord.Long = tw->item(row, 1)->text().toDouble();
 	coord.H = tw->item(row, 2)->text().toDouble();
-	return coord;
-
 	return coord;
 }
 

@@ -278,9 +278,9 @@ private:
 	//!хранилище координат (в радианах)
 	QVector<Coord> coord_storage;
 	CoordFormat format;
-	QString degrees_token = "\xB0";
-	QString minutes_token = "\x27";
-	QString seconds_token = "\x22";
+	const QString degrees_token = "\xB0";
+	const QString minutes_token = "\x27";
+	const QString seconds_token = "\x22";
 
 };
 
