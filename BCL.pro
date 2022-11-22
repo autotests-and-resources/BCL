@@ -27,6 +27,7 @@ HEADERS += \
         $${INC_PATH}/button.h \
         $${INC_PATH}/styles.h \
         $${INC_PATH}/dir.h \
+        $${INC_PATH}/CoordDelegate.h
 
 SOURCES += \
         $${SUB_FIELDS}/fields_default.cpp \
@@ -36,6 +37,7 @@ SOURCES += \
         $${SUB_BUTTONS}/button.cpp \
         $${SUB_STYLES}/styles_default.cpp \
         $${SUB_STYLES}/styles_button.cpp \
+        $${SUB_FIELDS}/CoordDelegate.cpp\
         $${SUB_DIR}/dir.cpp
 
 DESTDIR = $${LIBS_PATH}/
