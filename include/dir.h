@@ -1,8 +1,6 @@
 #ifndef DIR_H
 #define DIR_H
 
-#endif // DIR_H
-
 #include <QTextStream>
 #include <QDir>
 
@@ -15,3 +13,5 @@ public:
 	static bool copyDirectory(const QString &src, const QString &dest, bool recursive);
 	static bool removeDirectory(const QString &dir_path);
 };
+
+#endif // DIR_H
